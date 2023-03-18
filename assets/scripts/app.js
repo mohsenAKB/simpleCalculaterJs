@@ -1,35 +1,67 @@
 const defaultResult = 0;
 let currentResult = defaultResult;
+let logEntries = [];
 
-function getUserNumberinput(){
-    return parseInt(userInput.value);
+// Gets input from input field
+function getUserNumberInput() {
+  return parseInt(usrInput.value);
+}
+
+// Generates and writes calculation log
+function createAndWriteOutput(operator, resultBeforeCalc, calcNumber) {
+  const calcDescription = `${resultBeforeCalc} ${operator} ${calcNumber}`;
+  outputResult(currentResult, calcDescription); // from vendor file
+}
+
+function writeToLog(
+  operationIdentifier,
+  prevResult,
+  operationNumber,
+  newResult
+) {
+  const logEntry = {
+    operation: operationIdentifier,
+    prevResult: prevResult,
+    number: operationNumber,
+    result: newResult
+  };
+  logEntries.push(logEntry);
+  console.log(logEntries);
 }
 
 function add() {
-    const caclDescription = `${currentResult} + ${enteredNumber}`
-    const enteredNumber = getUserNumberinput();
-  currentResult = currentResult + enteredNumber;
-  outputResult(currentResult, caclDescription);
+  const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  currentResult += enteredNumber;
+  createAndWriteOutput('+', initialResult, enteredNumber);
+  writeToLog('ADD', initialResult, enteredNumber, currentResult);
 }
-function subtrack() {
-    const caclDescription = `${currentResult} - ${enteredNumber}`
-    const enteredNumber = getUserNumberinput();
-  currentResult = currentResult - enteredNumber;
-  outputResult(currentResult, caclDescription);
-}
-function multiply() {
-    const caclDescription = `${currentResult} * ${enteredNumber}`
-    const enteredNumber = getUserNumberinput();
-  currentResult = currentResult * enteredNumber;
-  outputResult(currentResult, caclDescription);
-}
-function divide() {
-    const caclDescription = `${currentResult} / ${enteredNumber}`
-    const enteredNumber = getUserNumberinput();
-  currentResult = currentResult / enteredNumber;
-  outputResult(currentResult, caclDescription);
-}
-//currentResult = add(1, 2);
-//let calculationDescription = `(${defaultResult} + 10) * 3 / 2 - 1`;
 
-addBtn.addEventListener("click", add);
+function subtract() {
+  const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  currentResult -= enteredNumber;
+  createAndWriteOutput('-', initialResult, enteredNumber);
+  writeToLog('SUBTRACT', initialResult, enteredNumber, currentResult);
+}
+
+function multiply() {
+  const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  currentResult *= enteredNumber;
+  createAndWriteOutput('*', initialResult, enteredNumber);
+  writeToLog('MULTIPLY', initialResult, enteredNumber, currentResult);
+}
+
+function divide() {
+  const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  currentResult /= enteredNumber;
+  createAndWriteOutput('/', initialResult, enteredNumber);
+  writeToLog('DIVIDE', initialResult, enteredNumber, currentResult);
+}
+
+addBtn.addEventListener('click', add);
+subtractBtn.addEventListener('click', subtract);
+multiplyBtn.addEventListener('click', multiply);
+divideBtn.addEventListener('click', divide);
